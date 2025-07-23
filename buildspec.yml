@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+ install:
+   commands:
+     - echo Installing dependencies
+ build:
+   commands:
+     - echo Build started on `date`
+     - aws s3 cp glue_job/s3_redshift_ETL.py s3://glue-code-artifacts-pyspark/scripts/s3_redshift_ETL.py
+     - |
+       aws glue update-job --job-name glue-cicd-job --job-update '{
+         "Command": {
+           "Name": "glueetl",
+           "ScriptLocation": "s3://glue-code-artifacts-pyspark/scripts/s3_redshift_ETL.py",
+           "PythonVersion": "3"
+         }
+       }'
+artifacts:
+ files:
+   - glue_job/s3_redshift_ETL.py
