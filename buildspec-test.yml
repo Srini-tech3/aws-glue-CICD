@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo Installing Spark...
+      - wget https://archive.apache.org/dist/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz
+      - tar -xzf spark-3.3.0-bin-hadoop3.tgz
+      - export SPARK_HOME=$(pwd)/spark-3.3.0-bin-hadoop3
+      - export PATH=$SPARK_HOME/bin:$PATH
+      - export PYSPARK_PYTHON=python3
+  build:
+    commands:
+      - echo Running PySpark test...
+      - python test_glue_script.py
+
+artifacts:
+  files:
+    - tests/test_glue_script.py
