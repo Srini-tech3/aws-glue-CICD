@@ -9,6 +9,7 @@ phases:
      - aws s3 cp glue_job/s3_redshift_ETL.py s3://glue-code-artifacts-pyspark/scripts/s3_redshift_ETL.py
      - |
        aws glue update-job --job-name glue-cicd-job --job-update '{
+         "Role": "arn:aws:iam::207091906553:role/glue-service-role",
          "Command": {
            "Name": "glueetl",
            "ScriptLocation": "s3://glue-code-artifacts-pyspark/scripts/s3_redshift_ETL.py",
